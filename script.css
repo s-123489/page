@@ -1,0 +1,103 @@
+// 图片加载错误处理
+document.addEventListener('DOMContentLoaded', function() {
+    const images = document.querySelectorAll('.project-image');
+    
+    images.forEach(img => {
+        img.addEventListener('error', function() {
+            console.warn('图片加载失败:', this.src);
+            // 使用备用图片或占位符
+            this.src = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjZThlZmY3Ii8+PHRleHQgeD0iNTAlIiB5PSI1MCUiIGZvbnQtZmFtaWx5PSJBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxNCIgZmlsbD0iIzRhNmZhNSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZHk9Ii4zZW0iPuWbvueJh+WKoOi9veihqOWkmjwvdGV4dD48L3N2Zz4=';
+            this.alt = '图片加载失败';
+        });
+    });
+    
+    // 添加项目卡片点击统计（可选功能）
+    const projectCards = document.querySelectorAll('.project-card');
+    
+    projectCards.forEach(card => {
+        card.addEventListener('click', function(e) {
+            const projectName = this.querySelector('.project-title').textContent;
+            console.log(`用户点击了项目: ${projectName}`);
+            
+            // 在实际应用中，这里可以发送统计信息到服务器
+            // 例如: trackProjectClick(projectName);
+        });
+    });
+});
+
+// 示例项目数据（用于动态生成内容，如果需要的话）
+const projectsData = {
+    "register-form": {
+        title: "注册表单",
+        description: "一个完整的用户注册表单，包含用户名、邮箱、密码和确认密码字段。实现了实时表单验证和用户友好的错误提示。",
+        image: "https://raw.githubusercontent.com/s-123489/project-images/main/register-form.png",
+        demoLink: "register-form.html",
+        codeLink: "https://github.com/s-123489/register-form"
+    },
+    "todo-app": {
+        title: "任务管理",
+        description: "简洁高效的任务管理应用，帮助用户组织日常任务和提高工作效率。支持任务分类、优先级设置和进度跟踪。",
+        image: "https://raw.githubusercontent.com/s-123489/project-images/main/todo-app.png",
+        demoLink: "todo-app.html",
+        codeLink: "https://github.com/s-123489/todo-app"
+    },
+    "password-generator": {
+        title: "密码生成器",
+        description: "强大的密码生成工具，可以创建符合各种安全要求的随机密码。支持自定义长度、字符类型和特殊要求。",
+        image: "https://raw.githubusercontent.com/s-123489/project-images/main/password-generator.png",
+        demoLink: "password-generator.html",
+        codeLink: "https://github.com/s-123489/password-generator"
+    },
+    "recipe-finder": {
+        title: "食谱搜索",
+        description: "智能食谱搜索应用，通过集成外部API提供丰富的食谱数据。用户可以根据食材、菜系或烹饪时间搜索合适的食谱。",
+        image: "https://raw.githubusercontent.com/s-123489/project-images/main/recipe-finder.png",
+        demoLink: "recipe-finder.html",
+        codeLink: "https://github.com/s-123489/recipe-finder"
+    },
+    "quiz-game": {
+        title: "问答游戏",
+        description: "交互式问答游戏，具有丰富的动画效果和用户界面。支持多种题型和游戏模式，提供流畅的游戏体验。",
+        image: "https://raw.githubusercontent.com/s-123489/project-images/main/quiz-game.png",
+        demoLink: "quiz-game.html",
+        codeLink: "https://github.com/s-123489/quiz-game"
+    }
+};
+
+
+function showProjectDetail(projectId) {
+    const project = projectsData[projectId];
+    if (!project) return;
+    
+ 
+    let detailSection = document.getElementById('project-detail');
+    if (!detailSection) {
+        detailSection = document.createElement('div');
+        detailSection.id = 'project-detail';
+        detailSection.className = 'project-detail';
+        document.querySelector('.container').appendChild(detailSection);
+    }
+    
+    detailSection.innerHTML = `
+        <a href="#" class="back-button" onclick="hideProjectDetail()"><i class="fas fa-arrow-left"></i> 返回项目列表</a>
+        <div class="project-detail-content">
+            <img src="${project.image}" alt="${project.title}" class="project-detail-image">
+            <h2 class="project-detail-title">${project.title}</h2>
+            <p class="project-detail-description">${project.description}</p>
+            <div class="project-actions">
+                <a href="${project.demoLink}" class="demo-button"><i class="fas fa-external-link-alt"></i> 在线演示</a>
+                <a href="${project.codeLink}" target="_blank" class="code-button"><i class="fab fa-github"></i> 查看代码</a>
+            </div>
+        </div>
+    `;
+    
+    detailSection.style.display = 'block';
+    detailSection.scrollIntoView({ behavior: 'smooth' });
+}
+
+function hideProjectDetail() {
+    const detailSection = document.getElementById('project-detail');
+    if (detailSection) {
+        detailSection.style.display = 'none';
+    }
+}
